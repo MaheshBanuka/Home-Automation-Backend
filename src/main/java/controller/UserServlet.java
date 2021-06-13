@@ -14,7 +14,7 @@ public class UserServlet extends HttpServlet {
         resp.setContentType("application/json");
         PrintWriter writer = resp.getWriter();
         writer.print("Response: \n");
-        writer.print("This is a sample programme");
+        writer.print("appuhami");
         writer.flush();
     }
 }
