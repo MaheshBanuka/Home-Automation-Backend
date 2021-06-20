@@ -3,6 +3,7 @@ import DB.DBConnectionPool;
 
 import java.io.IOException;
 import Dto.User;
+import Dto.Login;
 import java.sql.*;
 
 public class UserRepo {
@@ -14,14 +15,21 @@ public class UserRepo {
 
         try {
             con = DBConnectionPool.getInstance().getConnection();
-            System.out.println(user);
-            stmt = con.prepareStatement("INSERT INTO user (userName, password) VALUES (?, ?)");
+
+            stmt = con.prepareStatement("INSERT INTO user (userName, email, phone, address, password) VALUES (?, ?, ?, ?, ?)");
             stmt.setString(1, user.getUserName());
-            stmt.setString(2, user.getPassword());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPhone());
+            stmt.setString(4, user.getAddress());
+            stmt.setString(5, user.getPassword());
             changedRow = stmt.executeUpdate();
         }catch (SQLException e){
             e.printStackTrace();
-        }finally {
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
             DBConnectionPool.getInstance().close(rs);
             DBConnectionPool.getInstance().close(stmt);
             DBConnectionPool.getInstance().close(con);
@@ -29,11 +37,13 @@ public class UserRepo {
         return changedRow == 1 ? "User Registerd" : "User registration failed";
     }
 
-    public String userLogin(String userName, String password) {
+    public String userLogin(Login login) {
         ResultSet rs = null;
         Connection con = null;
         PreparedStatement stmt = null;
         String name = null;
+        String userName = login.getUserName();
+        String password = login.getPassword();
 
         try {
             con = DBConnectionPool.getInstance().getConnection();
@@ -42,7 +52,7 @@ public class UserRepo {
             stmt.setString(2, password);
             rs = stmt.executeQuery();
             while(rs.next()){
-                name = rs.getString("name");
+                name = rs.getString("userName");
             }
         }catch (SQLException e){
             e.printStackTrace();

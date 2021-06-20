@@ -1,6 +1,7 @@
 package Service;
 
 import Dto.User;
+import Dto.Login;
 import Repository.UserRepo;
 
 public class UserServiceImpl implements UserService{
@@ -14,9 +15,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String loginUser(String userName, String password) {
+    public String loginUser(Login login) {
         UserRepo userRepo = new UserRepo();
-        String name = userRepo.userLogin(userName, password);
+        String name = userRepo.userLogin(login);
         return name;
     }
 }
