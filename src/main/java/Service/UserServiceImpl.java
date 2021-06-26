@@ -20,4 +20,11 @@ public class UserServiceImpl implements UserService{
         String name = userRepo.userLogin(login);
         return name;
     }
+
+    @Override
+    public String[] userservices(Login login) {
+        UserRepo userRepo = new UserRepo();
+        String servicename[] = userRepo.userservices(login);
+        return servicename;
+    }
 }

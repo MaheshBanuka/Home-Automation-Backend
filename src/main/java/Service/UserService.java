@@ -7,4 +7,6 @@ public interface UserService {
     public String registerUser(User user);
 
     public String loginUser(Login login);
+
+    public String[] userservices(Login login);
 }
