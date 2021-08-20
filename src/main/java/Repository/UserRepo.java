@@ -1,13 +1,14 @@
 package Repository;
 
 import DB.DBConnectionPool;
-
-import java.io.IOException;
-
-import Dto.User;
+import Dto.Cart;
 import Dto.Login;
+import Dto.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UserRepo {
     public String userRegister(User user) {
@@ -75,7 +76,7 @@ public class UserRepo {
         PreparedStatement stmtservice = null;
         int i = 0;
         int id=0;
-        int orderid = 1;
+        int orderid = 0;
         ResultSet rs = null;
         PreparedStatement stmt = null;
         String userName = login.getUserName();
@@ -90,6 +91,9 @@ public class UserRepo {
             while (rs.next()) {
                 id = rs.getInt("id");
             }
+            DBConnectionPool.getInstance().close(stmt);
+            DBConnectionPool.getInstance().close(rs);
+            DBConnectionPool.getInstance().close(con);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -101,6 +105,9 @@ public class UserRepo {
             while (rsorderid.next()) {
                 orderid = rsorderid.getInt("orderid");
             }
+            DBConnectionPool.getInstance().close(stmtorder);
+            DBConnectionPool.getInstance().close(rsorderid);
+            DBConnectionPool.getInstance().close(con);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("order id");
@@ -141,6 +148,9 @@ public class UserRepo {
                 while (rsservicename.next()) {
                     servicename[k] = rsservicename.getString("servicename");
                 }
+                DBConnectionPool.getInstance().close(stmtservicename);
+                DBConnectionPool.getInstance().close(rsservicename);
+                DBConnectionPool.getInstance().close(con);
             }
 
         } catch (SQLException e) {
@@ -149,8 +159,92 @@ public class UserRepo {
         } finally {
             DBConnectionPool.getInstance().close(rsorderid);
             DBConnectionPool.getInstance().close(stmtorder);
+            DBConnectionPool.getInstance().close(stmtservice);
+            DBConnectionPool.getInstance().close(rsservice);
             DBConnectionPool.getInstance().close(con);
         }
         return servicename;
+    }
+    public int[] getqtyor(Login login){
+        ResultSet rsorderid = null;
+        ResultSet rsservice = null;
+        Connection con = null;
+        PreparedStatement stmtorder = null;
+        PreparedStatement stmtservice = null;
+        int i = 0;
+        int id=0;
+        int orderid = 0;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        String userName = login.getUserName();
+        String password = login.getPassword();
+
+        try {
+            con = DBConnectionPool.getInstance().getConnection();
+            stmt = con.prepareStatement("SELECT * FROM user WHERE user.username = ? AND user.password = ?");
+            stmt.setString(1, userName);
+            stmt.setString(2, password);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("id");
+            }
+            DBConnectionPool.getInstance().close(stmt);
+            DBConnectionPool.getInstance().close(rs);
+            DBConnectionPool.getInstance().close(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con = DBConnectionPool.getInstance().getConnection();
+            stmtorder = con.prepareStatement("SELECT * FROM `homeauto`.`order` WHERE `homeauto`.`order`.customerid = ?");
+            stmtorder.setString(1, Integer.toString(id));
+            rsorderid = stmtorder.executeQuery();
+            while (rsorderid.next()) {
+                orderid = rsorderid.getInt("orderid");
+            }
+            DBConnectionPool.getInstance().close(stmtorder);
+            DBConnectionPool.getInstance().close(rsorderid);
+            DBConnectionPool.getInstance().close(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("order id");
+        }
+
+        try {
+            con = DBConnectionPool.getInstance().getConnection();
+            stmtservice = con.prepareStatement("SELECT * FROM order_service WHERE order_service.orderid = ?");
+            stmtservice.setString(1, Integer.toString(orderid));
+            rsservice = stmtservice.executeQuery();
+            i = 0;
+            while (rsservice.next()) {
+                i++;
+            }
+            rsservice = stmtservice.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("service id");
+            System.out.println(e);
+        }
+        int[] serviceqty = new int[i];
+        try {
+            int j = 0;
+            while (rsservice.next()) {
+                serviceqty[j] = rsservice.getInt("qty");
+                j++;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+            System.out.println("service name");
+        } finally {
+            DBConnectionPool.getInstance().close(rsorderid);
+            DBConnectionPool.getInstance().close(stmtorder);
+            DBConnectionPool.getInstance().close(stmtservice);
+            DBConnectionPool.getInstance().close(rsservice);
+            DBConnectionPool.getInstance().close(con);
+        }
+        return serviceqty;
     }
 }

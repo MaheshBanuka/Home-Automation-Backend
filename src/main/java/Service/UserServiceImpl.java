@@ -1,7 +1,9 @@
 package Service;
 
+import Dto.Cart;
 import Dto.User;
 import Dto.Login;
+import Repository.CartRepo;
 import Repository.UserRepo;
 
 public class UserServiceImpl implements UserService{
@@ -26,5 +28,29 @@ public class UserServiceImpl implements UserService{
         UserRepo userRepo = new UserRepo();
         String servicename[] = userRepo.userservices(login);
         return servicename;
+    }
+
+    public String addcart(Cart cart){
+        CartRepo cartrepo = new CartRepo();
+        String mess = cartrepo.addcart(cart);
+        return mess;
+    }
+
+    public int[] getqty(Cart cart){
+        CartRepo cartrepo = new CartRepo();
+        int serviceqty[]=cartrepo.getqty(cart);
+        return serviceqty;
+    }
+
+    public String[] findcart(Cart cart){
+        CartRepo cartrepo = new CartRepo();
+        String servicenames[]=cartrepo.findcart(cart);
+        return servicenames;
+    }
+
+    public int[] getqtyor(Login login){
+        UserRepo userRepo = new UserRepo();
+        int serviceqty[] = userRepo.getqtyor(login);
+        return serviceqty;
     }
 }

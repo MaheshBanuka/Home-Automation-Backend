@@ -21,4 +21,34 @@
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OnOffServlet</servlet-name>
+        <servlet-class>controller.OnOffServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OnOffServlet</servlet-name>
+        <url-pattern>/onoff</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddcartServlet</servlet-name>
+        <servlet-class>controller.AddcartServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddcartServlet</servlet-name>
+        <url-pattern>/addcart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewcartServlet</servlet-name>
+        <servlet-class>controller.ViewcartServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ViewcartServlet</servlet-name>
+        <url-pattern>/viewcart</url-pattern>
+    </servlet-mapping>
 </web-app>
