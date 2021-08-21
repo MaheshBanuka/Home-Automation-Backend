@@ -9,15 +9,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CartRepo {
-    public String addcart(Cart cart){
+    public String addcart(Cart cart) {
         ResultSet rs = null;
         ResultSet rsc = null;
         ResultSet rscn = null;
         ResultSet rsuid = null;
-        int serviceid=0;
-        int id=0;
-        int cid=0;
-        int amount=0;
+        int serviceid = 0;
+        int id = 0;
+        int cid = 0;
+        double amount = 0;
+        double stillamount = 0;
+        double serviceamount = 0;
         Connection con = null;
         ResultSet rsservicename = null;
         PreparedStatement stmt = null;
@@ -44,31 +46,40 @@ public class CartRepo {
             rsc = stmtc.executeQuery();
             while (rsc.next()) {
                 cid = rsc.getInt("cartid");
+                stillamount = rsc.getDouble("amount");
             }
 
-            if(cid==0){
+            stmtservicename = con.prepareStatement("SELECT * FROM services WHERE services.servicename = ?");
+            stmtservicename.setString(1, cart.getservicename());
+            rsservicename = stmtservicename.executeQuery();
+            while (rsservicename.next()) {
+                serviceid = rsservicename.getInt("serviceid");
+                serviceamount = rsservicename.getDouble("cost");
+            }
+
+            if (cid == 0) {
                 stmtcn = con.prepareStatement("SELECT * FROM cart ");
                 rscn = stmtcn.executeQuery();
                 while (rscn.next()) {
                     cid = rscn.getInt("cartid");
                 }
-                cid=cid+1;
+                cid = cid + 1;
                 DBConnectionPool.getInstance().close(stmtcn);
                 DBConnectionPool.getInstance().close(rscn);
 
                 stmt = con.prepareStatement("INSERT INTO cart (cartid, userid, amount) VALUES (?, ?, ?)");
                 stmt.setString(1, String.valueOf(cid));
                 stmt.setString(2, String.valueOf(id));
-                stmt.setString(3, String.valueOf(amount));
+                stmt.setString(3, String.valueOf(stillamount + serviceamount));
+                changedRow = stmt.executeUpdate();
+            } else {
+                stmt = con.prepareStatement("UPDATE cart SET amount = ? WHERE cartid = ?");
+                stmt.setString(1, String.valueOf(stillamount + serviceamount));
+                stmt.setString(2, String.valueOf(cid));
+
                 changedRow = stmt.executeUpdate();
             }
 
-            stmtservicename = con.prepareStatement("SELECT serviceid FROM services WHERE services.servicename = ?");
-            stmtservicename.setString(1, cart.getservicename());
-            rsservicename = stmtservicename.executeQuery();
-            while (rsservicename.next()) {
-                serviceid = rsservicename.getInt("serviceid");
-            }
 
             stmtcart = con.prepareStatement("INSERT INTO cart_service (cartid, serviceid, quantity) VALUES (?, ?, ?)");
             stmtcart.setString(1, String.valueOf(cid));
@@ -93,13 +104,14 @@ public class CartRepo {
         }
         return changedRow == 1 ? "Cart Recorded" : "Cart Recording failed";
     }
-    public String[] findcart(Cart cart){
+
+    public String[] findcart(Cart cart) {
         ResultSet rsc = null;
         ResultSet rsco = null;
         ResultSet rsuid = null;
         ResultSet rsservice = null;
-        int id=0;
-        int cid=0;
+        int id = 0;
+        int cid = 0;
         Connection con = null;
         PreparedStatement stmtc = null;
         PreparedStatement stmtco = null;
@@ -143,9 +155,8 @@ public class CartRepo {
             DBConnectionPool.getInstance().close(rsco);
             DBConnectionPool.getInstance().close(con);
         }
-        int i=0;
+        int i = 0;
         try {
-
             con = DBConnectionPool.getInstance().getConnection();
             stmtservice = con.prepareStatement("SELECT * FROM cart_service WHERE cart_service.cartid = ?");
             stmtservice.setString(1, Integer.toString(cid));
@@ -197,13 +208,14 @@ public class CartRepo {
         }
         return servicename;
     }
-    public int[] getqty(Cart cart){
+
+    public int[] getqty(Cart cart) {
         ResultSet rsc = null;
         ResultSet rsco = null;
         ResultSet rsuid = null;
         ResultSet rsservice = null;
-        int id=0;
-        int cid=0;
+        int id = 0;
+        int cid = 0;
         Connection con = null;
         PreparedStatement stmtc = null;
         PreparedStatement stmtco = null;
@@ -247,7 +259,7 @@ public class CartRepo {
             DBConnectionPool.getInstance().close(rsco);
             DBConnectionPool.getInstance().close(con);
         }
-        int i=0;
+        int i = 0;
         try {
             con = DBConnectionPool.getInstance().getConnection();
             stmtservice = con.prepareStatement("SELECT * FROM cart_service WHERE cart_service.cartid = ?");

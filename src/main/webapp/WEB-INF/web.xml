@@ -51,4 +51,34 @@
         <servlet-name>ViewcartServlet</servlet-name>
         <url-pattern>/viewcart</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CompletePaymentServlet</servlet-name>
+        <servlet-class>controller.CompletePaymentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CompletePaymentServlet</servlet-name>
+        <url-pattern>/compay</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MySrevicesServlet</servlet-name>
+        <servlet-class>controller.MySrevicesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MySrevicesServlet</servlet-name>
+        <url-pattern>/myser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FeatureServlet</servlet-name>
+        <servlet-class>controller.FeatureServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FeatureServlet</servlet-name>
+        <url-pattern>/feature</url-pattern>
+    </servlet-mapping>
 </web-app>
