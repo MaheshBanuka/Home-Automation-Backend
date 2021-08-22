@@ -19,13 +19,16 @@ public class FeatureServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FeatureRepo feature = new FeatureRepo();
         String servicenames[] = feature.fename(request.getParameter("name"),request.getParameter("serid"),request.getParameter("qty"));
+        int featureid[] = feature.feid(request.getParameter("name"),request.getParameter("serid"),request.getParameter("qty"));
         List<String> listnames = Arrays.asList(servicenames);
         String servicenamesres = new Gson().toJson(listnames);
+        String featureidst = new Gson().toJson(featureid);
         System.out.println(servicenamesres);
         response.setContentType("application/json");
         PrintWriter writer = response.getWriter();
         JsonObject json = new JsonObject();
         json.addProperty("servicenames", servicenamesres);
+        json.addProperty("featureid", featureidst);
         writer.print(json.toString());
         writer.flush();
     }

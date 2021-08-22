@@ -48,6 +48,8 @@ public class CartRepo {
                 cid = rsc.getInt("cartid");
                 stillamount = rsc.getDouble("amount");
             }
+            DBConnectionPool.getInstance().close(stmtc);
+            DBConnectionPool.getInstance().close(rsc);
 
             stmtservicename = con.prepareStatement("SELECT * FROM services WHERE services.servicename = ?");
             stmtservicename.setString(1, cart.getservicename());
@@ -56,6 +58,8 @@ public class CartRepo {
                 serviceid = rsservicename.getInt("serviceid");
                 serviceamount = rsservicename.getDouble("cost");
             }
+            DBConnectionPool.getInstance().close(stmtservicename);
+            DBConnectionPool.getInstance().close(rsservicename);
 
             if (cid == 0) {
                 stmtcn = con.prepareStatement("SELECT * FROM cart ");
@@ -72,12 +76,14 @@ public class CartRepo {
                 stmt.setString(2, String.valueOf(id));
                 stmt.setString(3, String.valueOf(stillamount + serviceamount));
                 changedRow = stmt.executeUpdate();
+                DBConnectionPool.getInstance().close(stmt);
+
             } else {
                 stmt = con.prepareStatement("UPDATE cart SET amount = ? WHERE cartid = ?");
                 stmt.setString(1, String.valueOf(stillamount + serviceamount));
                 stmt.setString(2, String.valueOf(cid));
-
                 changedRow = stmt.executeUpdate();
+                DBConnectionPool.getInstance().close(stmt);
             }
 
 
@@ -86,6 +92,7 @@ public class CartRepo {
             stmtcart.setString(2, String.valueOf(serviceid));
             stmtcart.setString(3, String.valueOf(cart.getqty()));
             changedRow = stmtcart.executeUpdate();
+            DBConnectionPool.getInstance().close(stmtcart);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e);
@@ -93,13 +100,7 @@ public class CartRepo {
             System.out.println(e);
             e.printStackTrace();
         } finally {
-            DBConnectionPool.getInstance().close(stmtc);
-            DBConnectionPool.getInstance().close(rsc);
-            DBConnectionPool.getInstance().close(stmtservicename);
-            DBConnectionPool.getInstance().close(rsservicename);
             DBConnectionPool.getInstance().close(rs);
-            DBConnectionPool.getInstance().close(stmt);
-            DBConnectionPool.getInstance().close(stmtcart);
             DBConnectionPool.getInstance().close(con);
         }
         return changedRow == 1 ? "Cart Recorded" : "Cart Recording failed";
@@ -135,6 +136,8 @@ public class CartRepo {
             while (rsc.next()) {
                 cid = rsc.getInt("cartid");
             }
+            DBConnectionPool.getInstance().close(stmtc);
+            DBConnectionPool.getInstance().close(rsc);
 
             stmtco = con.prepareStatement("SELECT * FROM cart_service WHERE cart_service.cartid = ?");
             stmtco.setString(1, String.valueOf(cid));
@@ -142,17 +145,13 @@ public class CartRepo {
             while (rsco.next()) {
                 cid = rsco.getInt("cartid");
             }
+            DBConnectionPool.getInstance().close(stmtco);
+            DBConnectionPool.getInstance().close(rsco);
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e);
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
         } finally {
-            DBConnectionPool.getInstance().close(stmtc);
-            DBConnectionPool.getInstance().close(stmtco);
-            DBConnectionPool.getInstance().close(rsc);
-            DBConnectionPool.getInstance().close(rsco);
             DBConnectionPool.getInstance().close(con);
         }
         int i = 0;
@@ -166,6 +165,8 @@ public class CartRepo {
                 i++;
             }
             rsservice = stmtservice.executeQuery();
+//            DBConnectionPool.getInstance().close(stmtservice);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -182,9 +183,10 @@ public class CartRepo {
                 serviceqty[j] = rsservice.getInt("quantity");
                 j++;
             }
-
+            DBConnectionPool.getInstance().close(con);
+            con = DBConnectionPool.getInstance().getConnection();
             for (int k = 0; k < i; k++) {
-                con = DBConnectionPool.getInstance().getConnection();
+
                 ResultSet rsservicename = null;
                 PreparedStatement stmtservicename = null;
                 stmtservicename = con.prepareStatement("SELECT servicename FROM services WHERE services.serviceid = ?");
@@ -195,15 +197,17 @@ public class CartRepo {
                 }
                 DBConnectionPool.getInstance().close(stmtservicename);
                 DBConnectionPool.getInstance().close(rsservicename);
-                DBConnectionPool.getInstance().close(con);
-            }
 
+            }
+            DBConnectionPool.getInstance().close(con);
+            DBConnectionPool.getInstance().close(rsservice);
+            DBConnectionPool.getInstance().close(stmtservice);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("service name");
         } finally {
-            DBConnectionPool.getInstance().close(stmtservice);
-            DBConnectionPool.getInstance().close(rsservice);
+//            DBConnectionPool.getInstance().close(stmtservice);
+//            DBConnectionPool.getInstance().close(rsservice);
             DBConnectionPool.getInstance().close(con);
         }
         return servicename;
@@ -239,6 +243,8 @@ public class CartRepo {
             while (rsc.next()) {
                 cid = rsc.getInt("cartid");
             }
+            DBConnectionPool.getInstance().close(stmtc);
+            DBConnectionPool.getInstance().close(rsc);
 
             stmtco = con.prepareStatement("SELECT * FROM cart_service WHERE cart_service.cartid = ?");
             stmtco.setString(1, String.valueOf(cid));
@@ -246,6 +252,10 @@ public class CartRepo {
             while (rsco.next()) {
                 cid = rsco.getInt("cartid");
             }
+            DBConnectionPool.getInstance().close(stmtco);
+            DBConnectionPool.getInstance().close(rsco);
+            DBConnectionPool.getInstance().close(con);
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e);
@@ -253,10 +263,6 @@ public class CartRepo {
             System.out.println(e);
             e.printStackTrace();
         } finally {
-            DBConnectionPool.getInstance().close(stmtc);
-            DBConnectionPool.getInstance().close(rsc);
-            DBConnectionPool.getInstance().close(stmtco);
-            DBConnectionPool.getInstance().close(rsco);
             DBConnectionPool.getInstance().close(con);
         }
         int i = 0;
@@ -270,6 +276,7 @@ public class CartRepo {
                 i++;
             }
             rsservice = stmtservice.executeQuery();
+//            DBConnectionPool.getInstance().close(stmtservice);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -285,13 +292,16 @@ public class CartRepo {
                 serviceqty[j] = rsservice.getInt("quantity");
                 j++;
             }
+            DBConnectionPool.getInstance().close(stmtservice);
+            DBConnectionPool.getInstance().close(rsservice);
+            DBConnectionPool.getInstance().close(con);
 
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("service name");
         } finally {
-            DBConnectionPool.getInstance().close(stmtservice);
-            DBConnectionPool.getInstance().close(rsservice);
+//            DBConnectionPool.getInstance().close(stmtservice);
+//            DBConnectionPool.getInstance().close(rsservice);
             DBConnectionPool.getInstance().close(con);
         }
         return serviceqty;

@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet(name = "LoginServlet", value = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+//        System.out.println("asdasdasdasdasd");
         Login login = new Login(req.getParameter("name"), req.getParameter("password"));
         UserService userService = new UserServiceImpl();
         String result = userService.loginUser(login);

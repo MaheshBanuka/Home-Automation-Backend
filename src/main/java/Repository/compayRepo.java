@@ -50,7 +50,7 @@ public class compayRepo {
                 amount = rsc.getDouble("amount");
             }
             DBConnectionPool.getInstance().close(stmtc);
-            DBConnectionPool.getInstance().close(stmtc);
+            DBConnectionPool.getInstance().close(rsc);
 
             PreparedStatement stmtcn = con.prepareStatement("SELECT * FROM `homeauto`.`order` ");
             ResultSet rscn = stmtcn.executeQuery();
@@ -61,7 +61,6 @@ public class compayRepo {
             DBConnectionPool.getInstance().close(stmtcn);
             DBConnectionPool.getInstance().close(rscn);
 
-//            stmt = con.prepareStatement("INSERT INTO order (orderid,customerid, amount, date, time) VALUES (oid, id, amount, datec, timec)");
             stmt = con.prepareStatement("INSERT INTO `homeauto`.`order` (`orderid`, `customerid`, `amount`, `date`, `time`) VALUES (?, ?, ?, ?, ?)");
             stmt.setString(1, String.valueOf(oid));
             stmt.setString(2, String.valueOf(id));

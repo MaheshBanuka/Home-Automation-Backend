@@ -81,4 +81,24 @@
         <servlet-name>FeatureServlet</servlet-name>
         <url-pattern>/feature</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewServicesServlet</servlet-name>
+        <servlet-class>controller.ViewServicesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ViewServicesServlet</servlet-name>
+        <url-pattern>/viewservice</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateServiceServlet</servlet-name>
+        <servlet-class>controller.UpdateServiceServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UpdateServiceServlet</servlet-name>
+        <url-pattern>/updateservice</url-pattern>
+    </servlet-mapping>
 </web-app>
