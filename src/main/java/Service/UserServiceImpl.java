@@ -17,18 +17,18 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String loginUser(Login login) {
+    public String[] loginUser(Login login) {
         UserRepo userRepo = new UserRepo();
-        String name = userRepo.userLogin(login);
+        String[] name = userRepo.userLogin(login);
         return name;
     }
 
     @Override
-    public String[] userservices(Login login) {
-        UserRepo userRepo = new UserRepo();
-        String servicename[] = userRepo.userservices(login);
-        return servicename;
-    }
+//    public String[] userservices(Login login) {
+//        UserRepo userRepo = new UserRepo();
+//        String servicename[] = userRepo.userservices(login);
+//        return servicename;
+//    }
 
     public String addcart(Cart cart){
         CartRepo cartrepo = new CartRepo();
@@ -48,9 +48,9 @@ public class UserServiceImpl implements UserService{
         return servicenames;
     }
 
-    public int[] getqtyor(Login login){
-        UserRepo userRepo = new UserRepo();
-        int serviceqty[] = userRepo.getqtyor(login);
-        return serviceqty;
-    }
+//    public int[] getqtyor(Login login){
+//        UserRepo userRepo = new UserRepo();
+//        int serviceqty[] = userRepo.getqtyor(login);
+//        return serviceqty;
+//    }
 }

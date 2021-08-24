@@ -18,12 +18,15 @@ public class MySrevicesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Myser myser = new Myser();
         String servicenames[] = myser.mysername(request.getParameter("name"));
+        int serviceqty[] = myser.getqtyor(request.getParameter("name"));
         List<String> listnames = Arrays.asList(servicenames);
         String servicenamesres = new Gson().toJson(listnames);
+        String serviceqtyres = new Gson().toJson(serviceqty);
         System.out.println(servicenamesres);
         response.setContentType("application/json");
         PrintWriter writer = response.getWriter();
         JsonObject json = new JsonObject();
+        json.addProperty("serviceqty", serviceqtyres);
         json.addProperty("servicenames", servicenamesres);
         writer.print(json.toString());
         writer.flush();

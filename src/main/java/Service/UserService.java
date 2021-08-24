@@ -7,9 +7,9 @@ import Dto.Login;
 public interface UserService {
     public String registerUser(User user);
 
-    public String loginUser(Login login);
+    public String[] loginUser(Login login);
 
-    public String[] userservices(Login login);
+//    public String[] userservices(Login login);
 
     public String addcart(Cart cart);
 
@@ -17,5 +17,5 @@ public interface UserService {
 
     public int[] getqty(Cart cart);
 
-    public int[] getqtyor(Login login);
+//    public int[] getqtyor(Login login);
 }

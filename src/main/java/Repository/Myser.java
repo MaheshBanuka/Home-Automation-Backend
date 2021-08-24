@@ -2,6 +2,7 @@ package Repository;
 
 import DB.DBConnectionPool;
 import Dto.Cart;
+import Dto.Login;
 import sun.security.mscapi.CPublicKey;
 
 import java.sql.Connection;
@@ -112,5 +113,85 @@ public class Myser {
             DBConnectionPool.getInstance().close(con);
         }
         return servicename;
+    }
+
+    public int[] getqtyor(String name){
+        ResultSet rsorderid = null;
+        ResultSet rsservice = null;
+        Connection con = null;
+        PreparedStatement stmtorder = null;
+        PreparedStatement stmtservice = null;
+        int i = 0;
+        int id=0;
+        int orderid = 0;
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        try {
+            con = DBConnectionPool.getInstance().getConnection();
+            stmt = con.prepareStatement("SELECT * FROM user WHERE user.username = ?");
+            stmt.setString(1, name);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("id");
+            }
+            DBConnectionPool.getInstance().close(stmt);
+            DBConnectionPool.getInstance().close(rs);
+            DBConnectionPool.getInstance().close(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con = DBConnectionPool.getInstance().getConnection();
+            stmtorder = con.prepareStatement("SELECT * FROM `homeauto`.`order` WHERE `homeauto`.`order`.customerid = ?");
+            stmtorder.setString(1, Integer.toString(id));
+            rsorderid = stmtorder.executeQuery();
+            while (rsorderid.next()) {
+                orderid = rsorderid.getInt("orderid");
+            }
+            DBConnectionPool.getInstance().close(stmtorder);
+            DBConnectionPool.getInstance().close(rsorderid);
+            DBConnectionPool.getInstance().close(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("order id");
+        }
+
+        try {
+            con = DBConnectionPool.getInstance().getConnection();
+            stmtservice = con.prepareStatement("SELECT * FROM order_service WHERE order_service.orderid = ?");
+            stmtservice.setString(1, Integer.toString(orderid));
+            rsservice = stmtservice.executeQuery();
+            i = 0;
+            while (rsservice.next()) {
+                i++;
+            }
+            rsservice = stmtservice.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("service id");
+            System.out.println(e);
+        }
+        int[] serviceqty = new int[i];
+        try {
+            int j = 0;
+            while (rsservice.next()) {
+                serviceqty[j] = rsservice.getInt("qty");
+                j++;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+            System.out.println("service name");
+        } finally {
+            DBConnectionPool.getInstance().close(rsorderid);
+            DBConnectionPool.getInstance().close(stmtorder);
+            DBConnectionPool.getInstance().close(stmtservice);
+            DBConnectionPool.getInstance().close(rsservice);
+            DBConnectionPool.getInstance().close(con);
+        }
+        return serviceqty;
     }
 }

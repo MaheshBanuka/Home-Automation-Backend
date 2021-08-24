@@ -101,4 +101,44 @@
         <servlet-name>UpdateServiceServlet</servlet-name>
         <url-pattern>/updateservice</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewUserServlet</servlet-name>
+        <servlet-class>controller.ViewUserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ViewUserServlet</servlet-name>
+        <url-pattern>/viewuser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <servlet-class>controller.UserDeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserDeleteServlet</servlet-name>
+        <url-pattern>/userdelete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserActiveServlet</servlet-name>
+        <servlet-class>controller.UserActiveServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserActiveServlet</servlet-name>
+        <url-pattern>/useractive</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserBannedServlet</servlet-name>
+        <servlet-class>controller.UserBannedServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserBannedServlet</servlet-name>
+        <url-pattern>/userbanned</url-pattern>
+    </servlet-mapping>
 </web-app>
