@@ -74,13 +74,13 @@ public class CartRepo {
                 stmt = con.prepareStatement("INSERT INTO cart (cartid, userid, amount) VALUES (?, ?, ?)");
                 stmt.setString(1, String.valueOf(cid));
                 stmt.setString(2, String.valueOf(id));
-                stmt.setString(3, String.valueOf(stillamount + serviceamount));
+                stmt.setString(3, String.valueOf(stillamount + (serviceamount*Integer.valueOf(cart.getqty()))));
                 changedRow = stmt.executeUpdate();
                 DBConnectionPool.getInstance().close(stmt);
 
             } else {
                 stmt = con.prepareStatement("UPDATE cart SET amount = ? WHERE cartid = ?");
-                stmt.setString(1, String.valueOf(stillamount + serviceamount));
+                stmt.setString(1, String.valueOf(stillamount + (serviceamount*Integer.valueOf(cart.getqty()))));
                 stmt.setString(2, String.valueOf(cid));
                 changedRow = stmt.executeUpdate();
                 DBConnectionPool.getInstance().close(stmt);

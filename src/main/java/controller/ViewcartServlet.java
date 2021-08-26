@@ -27,8 +27,8 @@ public class ViewcartServlet extends HttpServlet {
         List<String> listnames = Arrays.asList(servicenames);
         String servicenamesres = new Gson().toJson(listnames);
         String serviceqtyres = new Gson().toJson(serviceqty);
-        System.out.println(servicenamesres);
-        System.out.println(serviceqtyres);
+//        System.out.println(servicenamesres);
+//        System.out.println(serviceqtyres);
         resp.setContentType("application/json");
         PrintWriter writer = resp.getWriter();
         JsonObject json = new JsonObject();

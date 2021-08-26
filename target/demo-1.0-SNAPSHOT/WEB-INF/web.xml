@@ -113,6 +113,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>CartDeleteServlet</servlet-name>
+        <servlet-class>controller.CartDeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CartDeleteServlet</servlet-name>
+        <url-pattern>/delcart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>UserDeleteServlet</servlet-name>
         <servlet-class>controller.UserDeleteServlet</servlet-class>
     </servlet>
@@ -140,5 +150,15 @@
     <servlet-mapping>
         <servlet-name>UserBannedServlet</servlet-name>
         <url-pattern>/userbanned</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FeatureRenameServlet</servlet-name>
+        <servlet-class>controller.FeatureRenameServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FeatureRenameServlet</servlet-name>
+        <url-pattern>/ferename</url-pattern>
     </servlet-mapping>
 </web-app>
