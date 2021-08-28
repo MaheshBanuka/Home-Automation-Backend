@@ -61,12 +61,13 @@ public class compayRepo {
             DBConnectionPool.getInstance().close(stmtcn);
             DBConnectionPool.getInstance().close(rscn);
 
-            stmt = con.prepareStatement("INSERT INTO `homeauto`.`order` (`orderid`, `customerid`, `amount`, `date`, `time`) VALUES (?, ?, ?, ?, ?)");
+            stmt = con.prepareStatement("INSERT INTO `homeauto`.`order` (`orderid`, `customerid`, `amount`, `date`, `time`, `status`) VALUES (?, ?, ?, ?, ?, ?)");
             stmt.setString(1, String.valueOf(oid));
             stmt.setString(2, String.valueOf(id));
             stmt.setString(3, String.valueOf(amount));
             stmt.setString(4, String.valueOf(datec));
             stmt.setString(5, String.valueOf(timec));
+            stmt.setString(6, "Paid");
             changedRow = stmt.executeUpdate();
             if (changedRow != 0) {
                 stmtdel = con.prepareStatement("DELETE FROM cart WHERE cart.cartid=?");

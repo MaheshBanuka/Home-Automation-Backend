@@ -161,4 +161,34 @@
         <servlet-name>FeatureRenameServlet</servlet-name>
         <url-pattern>/ferename</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderDetailsServlet</servlet-name>
+        <servlet-class>controller.OrderDetailsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>OrderDetailsServlet</servlet-name>
+        <url-pattern>/orderdet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>NotComOrderServlet</servlet-name>
+        <servlet-class>controller.NotComOrderServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>NotComOrderServlet</servlet-name>
+        <url-pattern>/notcomorder</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CompleatOrderServlet</servlet-name>
+        <servlet-class>controller.CompleatOrderServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CompleatOrderServlet</servlet-name>
+        <url-pattern>/comorder</url-pattern>
+    </servlet-mapping>
 </web-app>
