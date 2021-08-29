@@ -18,4 +18,7 @@ public interface UserService {
     public int[] getqty(Cart cart);
 
 //    public int[] getqtyor(Login login);
+
+    public boolean saveSensorData(String sensorId);
 }
+

@@ -178,6 +178,15 @@
     </servlet>
 
     <servlet-mapping>
+        <servlet-name>SensorServlet</servlet-name>
+        <url-pattern>/sensor</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SensorServlet</servlet-name>
+        <servlet-class>controller.SensorServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
         <servlet-name>NotComOrderServlet</servlet-name>
         <url-pattern>/notcomorder</url-pattern>
     </servlet-mapping>

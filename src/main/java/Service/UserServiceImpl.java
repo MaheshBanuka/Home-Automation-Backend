@@ -4,6 +4,7 @@ import Dto.Cart;
 import Dto.User;
 import Dto.Login;
 import Repository.CartRepo;
+import Repository.SensorRepo;
 import Repository.UserRepo;
 
 public class UserServiceImpl implements UserService{
@@ -53,4 +54,11 @@ public class UserServiceImpl implements UserService{
 //        int serviceqty[] = userRepo.getqtyor(login);
 //        return serviceqty;
 //    }
+
+    @Override
+    public boolean saveSensorData(String sensorId) {
+        System.out.println("sen"+ sensorId);
+        SensorRepo sensorRepo = new SensorRepo();
+        return sensorRepo.saveData(sensorId);
+    }
 }

@@ -15,7 +15,10 @@ public class OnOff extends Frame {
     Socket soc;
 
     public void action(String count,String caption) throws IOException {
+        System.out.println(caption);
+        System.out.println(count);
         int a = Integer.valueOf(count);
+        System.out.println(a);
 //        System.out.println(caption);
 //        Mcucon mcucon = new Mcucon();
 //        mcucon.mcon();
@@ -23,7 +26,7 @@ public class OnOff extends Frame {
         else{
             System.out.println("com");
             try {
-                soc = new Socket("192.168.8.101", 1987);
+                soc = new Socket("192.168.8.105", 1987);
                 System.out.println("Connected");
             } catch (UnknownHostException e1) {
                 // TODO Auto-generated catch block
@@ -33,21 +36,23 @@ public class OnOff extends Frame {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
                 System.out.println("Can not connect");
-
             }
         }
-
+        System.out.println("jhgjhg");
         InputStream socInput = soc.getInputStream();
+        System.out.println(socInput);
         DataInputStream data = new DataInputStream(socInput);
-
-        System.out.println("test test test" + data.readUTF());
-
+        System.out.println(data);
+//        System.out.println("test test test" + data.readUTF());
+        System.out.println("fuck");
         int aASCII=97;
         int command=0;
         for(int i=0;i<7;i++)
         {
+            System.out.println("test");
             if(a==i && caption.equals("On_D"))
             {
+                System.out.println(a);
                 command=aASCII+i;
                 // send command over network
                 writeCommand(command);
