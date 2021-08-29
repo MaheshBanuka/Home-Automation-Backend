@@ -200,4 +200,14 @@
         <servlet-name>CompleatOrderServlet</servlet-name>
         <url-pattern>/comorder</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ViewSensorServlet</servlet-name>
+        <servlet-class>controller.ViewSensorServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ViewSensorServlet</servlet-name>
+        <url-pattern>/viewsensor</url-pattern>
+    </servlet-mapping>
 </web-app>

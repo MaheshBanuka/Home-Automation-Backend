@@ -19,6 +19,6 @@ public interface UserService {
 
 //    public int[] getqtyor(Login login);
 
-    public boolean saveSensorData(String sensorId);
+    public boolean saveSensorData(String sensorId, String featureid);
 }
 

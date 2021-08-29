@@ -56,9 +56,9 @@ public class UserServiceImpl implements UserService{
 //    }
 
     @Override
-    public boolean saveSensorData(String sensorId) {
+    public boolean saveSensorData(String sensorId, String featureid) {
         System.out.println("sen"+ sensorId);
         SensorRepo sensorRepo = new SensorRepo();
-        return sensorRepo.saveData(sensorId);
+        return sensorRepo.saveData(sensorId, featureid);
     }
 }

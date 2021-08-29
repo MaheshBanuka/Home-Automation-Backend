@@ -55,7 +55,7 @@ public class compayRepo {
             PreparedStatement stmtcn = con.prepareStatement("SELECT * FROM `homeauto`.`order` ");
             ResultSet rscn = stmtcn.executeQuery();
             while (rscn.next()) {
-                oid = rscn.getInt("orderid");
+                oid ++;
             }
             oid = oid + 1;
             DBConnectionPool.getInstance().close(stmtcn);
@@ -84,7 +84,7 @@ public class compayRepo {
             PreparedStatement stmtf = con.prepareStatement("SELECT * FROM feature ");
             ResultSet rsf = stmtf.executeQuery();
             while (rsf.next()){
-                fid=rsf.getInt("featureid");
+                fid++;
             }
             DBConnectionPool.getInstance().close(stmtf);
             DBConnectionPool.getInstance().close(rsf);
